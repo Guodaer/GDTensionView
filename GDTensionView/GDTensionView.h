@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum
+{
+    localImage,
+    netImage
+    
+}ISLocalImage;
+
 @interface GDTensionView : UIView
 
 

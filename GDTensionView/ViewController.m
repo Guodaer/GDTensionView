@@ -13,6 +13,8 @@
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) GDTensionView *GDView;
+
+@property (nonatomic, strong) GDTensionView *netImageView;
 @end
 
 @implementation ViewController
@@ -21,15 +23,21 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    self.GDView = [[GDTensionView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 600 * [UIScreen mainScreen].bounds.size.width/1024) WithImages:@"localImg"];
+//    self.GDView = [[GDTensionView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 600 * [UIScreen mainScreen].bounds.size.width/1024) WithImages:@"localImg"];
 
+    
+    self.netImageView = [[GDTensionView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 600*[UIScreen mainScreen].bounds.size.width/1024) WithImages:[NSURL URLWithString:@"http://ws.xzhushou.cn/focusimg/201508201549023.jpg"] PlaceholderImage:[UIImage imageNamed:@"localImg"]];
+    
+    
+    
     UITableView *tableView1 = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     self.tableView = tableView1;
     tableView1.delegate = self;
     tableView1.dataSource = self;
     [self.view addSubview:tableView1];
     
-    self.tableView.tableHeaderView = self.GDView;
+    //改这里
+    self.tableView.tableHeaderView = self.netImageView;
     
     
 }
@@ -38,7 +46,9 @@
     CGFloat offsetY = scrollView.contentOffset.y;
     if (offsetY < 0) {
         if (offsetY > -100) {
-            [self.GDView imageViewStretchingWithOffSet:offsetY];
+            //修改本地
+            [self.netImageView imageViewStretchingWithOffSet:offsetY];
+            
         }
     }
     
