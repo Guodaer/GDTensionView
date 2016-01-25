@@ -15,6 +15,8 @@
 @property (nonatomic, strong) GDTensionView *GDView;
 
 @property (nonatomic, strong) GDTensionView *netImageView;
+
+@property (nonatomic, strong) UIView *NavbgImg;
 @end
 
 @implementation ViewController
@@ -25,6 +27,16 @@
     
 //    self.GDView = [[GDTensionView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 600 * [UIScreen mainScreen].bounds.size.width/1024) WithImages:@"localImg"];
 
+//    self.NavbgImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 64)];
+//    self.NavbgImg.image = [UIImage imageNamed:@"Shop_NavBackgroundImg"];
+//    
+//    [self.navigationController.navigationBar insertSubview:self.NavbgImg atIndex:0];
+    
+    
+//    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"Shop_NavBackgroundImg"] forBarMetrics:0];
+//    NavigationAlpha_0
+    self.navigationController.navigationBarHidden = YES;
+    
     
     self.netImageView = [[GDTensionView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 600*[UIScreen mainScreen].bounds.size.width/1024) WithImages:[NSURL URLWithString:@"http://ws.xzhushou.cn/focusimg/201508201549023.jpg"] PlaceholderImage:[UIImage imageNamed:@"localImg"]];
     
@@ -39,19 +51,51 @@
     //改这里
     self.tableView.tableHeaderView = self.netImageView;
     
+    [self NavigationCustomBar];//自定义的导航栏
     
 }
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+- (UIView *)NavigationCustomBar {
     
+    
+    self.NavbgImg = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
+    self.NavbgImg.backgroundColor = [UIColor clearColor];
+    
+    [self.view addSubview:self.NavbgImg];
+
+    return self.NavbgImg;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+#if 1
     CGFloat offsetY = scrollView.contentOffset.y;
-    if (offsetY < 0) {
+
+    if (offsetY < -1) {
         if (offsetY > -100) {
             //修改本地
             [self.netImageView imageViewStretchingWithOffSet:offsetY];
-            
+            self.NavbgImg.hidden = YES;
         }
     }
-    
+    //导航栏
+    if (offsetY > -19) {
+//        CGFloat y = 600*[UIScreen mainScreen].bounds.size.width/1024;
+        
+        if (offsetY < 210) {
+            self.NavbgImg.hidden = NO;
+//            NSLog(@"%.2lf",y);
+            self.NavbgImg.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.8 alpha:offsetY/210];
+        }
+        else{
+            self.NavbgImg.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.8 alpha:1];
+            
+            self.NavbgImg.hidden = NO;
+        }
+        
+    }else{
+        self.NavbgImg.hidden = YES;
+        
+    }
+#endif
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;

@@ -94,11 +94,10 @@
     
     if (offset < -1) {
         if (self.isLocal == localImage) {
-            self.localImageView.frame = CGRectMake(offset, offset, width, height);
+            self.localImageView.frame = CGRectMake(offset/3*2, offset, width, height);
         }
         if (self.isLocal == netImage) {
-            NSLog(@"2312");
-            self.netImageView.frame = CGRectMake(offset, offset, width, height);
+            self.netImageView.frame = CGRectMake(offset/3*2, offset, width, height);
         }
     }
     else {
